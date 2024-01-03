@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.math import Vector2
-from boards import *
+from board import *
+from button import *
 
 pygame.init()
 
@@ -16,6 +17,7 @@ clock = pygame.time.Clock()
 board = Board(Vector2, pygame)
 
 while True:
+    #Checks if the x to close button is clicked
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -23,7 +25,12 @@ while True:
     
     #Drawing
     screen.fill(board.BROWN)
-    board.draw(screen, cell_size, Vector2(4, 2))
+    board.draw(screen, cell_size, Vector2(4, 1))
 
+    button1 = Button(pygame)
+    for i in range(15, 40, 8):
+        button1.draw(screen, cell_size, i, 3)
+
+    #Game clock
     pygame.display.update()
     clock.tick(30)

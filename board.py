@@ -8,8 +8,8 @@ class Board:
 #        self.position = Vector2(5, 4)
     
     def draw(self, screen, cell_size, position):
-        board_rect = self.pygame.Rect(position.x * cell_size, position.y * cell_size, cell_size * 42, cell_size * 46)
+        board_rect = self.pygame.Rect(position.x * cell_size, position.y * cell_size, cell_size * 42, cell_size * 48)
         self.pygame.draw.rect(screen, self.DARK_BROWN, board_rect)
 
-        line_rect = self.pygame.Rect((position.x + 7) * cell_size, position.y * cell_size, cell_size, cell_size * 46)
+        line_rect = self.pygame.Rect((position.x + 7) * cell_size, position.y * cell_size, cell_size, cell_size * 48)
         self.pygame.draw.rect(screen, self.DARKEST_BROWN, line_rect)
