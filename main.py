@@ -1,8 +1,14 @@
-import pygame, sys
+import pygame, sys, random
 from pygame.math import Vector2
 from board import *
 from button import *
 from textbutton import *
+from keypeg import *
+
+buttons = []
+answer = []
+for i in range(4):
+    answer.append(random.randint(0, 5))
 
 pygame.init()
 
@@ -35,7 +41,7 @@ button3.initial_draw(screen, cell_size, x + 27, y + 2)
 button4.initial_draw(screen, cell_size, x + 35, y + 2)
 
 guess_button = Text_Button(pygame, "Guess")
-guess_button.draw(screen, cell_size, 0, 0, font)
+guess_button.draw(screen, cell_size, 30, 30, font)
 
 while True:
     #Checks if the x to close button is clicked
@@ -45,12 +51,22 @@ while True:
             sys.exit("Thank you for playing!")
     
     #Checking for collisions
-    button1.check_clicked(screen, cell_size, x + 11, y + 2)
-    button2.check_clicked(screen, cell_size, x + 19, y + 2)
-    button3.check_clicked(screen, cell_size, x + 27, y + 2)
-    button4.check_clicked(screen, cell_size, x + 35, y + 2)
+    buttons[0] = button1.check_clicked(screen, cell_size, x + 11, y + 2)
+    buttons[1] = button2.check_clicked(screen, cell_size, x + 19, y + 2)
+    buttons[2] = button3.check_clicked(screen, cell_size, x + 27, y + 2)
+    buttons[3] = button4.check_clicked(screen, cell_size, x + 35, y + 2)
 
-    guess_button.check_click(screen, cell_size, 0, 0)
+    guessed = guess_button.check_click(screen, cell_size, 30, 30)
+    if guessed == True:
+        correct = guess_button.check_correct(answer, buttons)
+        peg1 = Key_Peg()
+        peg2 = Key_Peg()
+        peg3 = Key_Peg()
+        peg4 = Key_Peg()
+        peg1.place(screen, cell_size, 0, 0, correct[0])
+        peg2.place(screen, cell_size, 2, 0, correct[1])
+        peg3.place(screen, cell_size, 0, 2, correct[2])
+        peg4.place(screen, cell_size, 2, 2, correct[3])
 
     #Game clock
     pygame.display.update()
