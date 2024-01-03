@@ -5,10 +5,11 @@ from button import *
 from textbutton import *
 from keypeg import *
 
-buttons = []
+buttons = [0, 0, 0, 0]
 answer = []
 for i in range(4):
     answer.append(random.randint(0, 5))
+print(answer)
 
 pygame.init()
 
@@ -59,14 +60,14 @@ while True:
     guessed = guess_button.check_click(screen, cell_size, 30, 30)
     if guessed == True:
         correct = guess_button.check_correct(answer, buttons)
-        peg1 = Key_Peg()
-        peg2 = Key_Peg()
-        peg3 = Key_Peg()
-        peg4 = Key_Peg()
-        peg1.place(screen, cell_size, 0, 0, correct[0])
-        peg2.place(screen, cell_size, 2, 0, correct[1])
-        peg3.place(screen, cell_size, 0, 2, correct[2])
-        peg4.place(screen, cell_size, 2, 2, correct[3])
+        peg1 = Key_Peg(pygame)
+        peg2 = Key_Peg(pygame)
+        peg3 = Key_Peg(pygame)
+        peg4 = Key_Peg(pygame)
+        peg1.place(screen, cell_size, 2, y + 2, correct[0])
+        peg2.place(screen, cell_size, 4, y + 2, correct[1])
+        peg3.place(screen, cell_size, 2, y + 4, correct[2])
+        peg4.place(screen, cell_size, 4, y + 4, correct[3])
 
     #Game clock
     pygame.display.update()

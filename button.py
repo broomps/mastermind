@@ -24,8 +24,8 @@ class Button:
                 #It iterates through the colours each time the button is clicked and returns what colour it is on
                 self.colour += 1
                 self.pygame.draw.rect(screen, self.colours[self.colour%len(self.colours)], button_rect)
-                return(self.colour%len(self.colours))
         
         #If not currently clicking another click will be allowed
         if self.pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
+        return(self.colour%len(self.colours))

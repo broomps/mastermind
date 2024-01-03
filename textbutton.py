@@ -6,7 +6,7 @@ class Text_Button:
         self.dark_brown = dark_brown
         self.text = text
         self.clicked = False
-        self.correct = []
+        self.correct = [[False, False, False], [False, False, False], [False, False, False], [False, False, False]]
     
     def draw(self, screen, cell_size, x, y, font):
         #Draws the background that the text sits on
@@ -38,7 +38,7 @@ class Text_Button:
             if buttons[i] == correct_answer[i]:
                 self.correct[i][0] = True
             for j in range(4):
-                if (buttons[i] == buttons[j]) and (i != j):
+                if (buttons[i] == correct_answer[j]) and (i != j):
                     self.correct[i][1] = True
             if (self.correct[i][0] == False) and (self.correct[i][1] == False):
                 self.correct[i][2] = True
