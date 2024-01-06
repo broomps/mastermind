@@ -44,6 +44,9 @@ button4.initial_draw(screen, cell_size, x + 35, y + 2)
 guess_button = Text_Button(pygame, "Guess")
 guess_button.draw(screen, cell_size, 0, 0, font)
 
+won = False
+count = 0
+
 while True:
     #Checks if the x to close button is clicked
     for event in pygame.event.get():
@@ -69,6 +72,13 @@ while True:
         peg3.place(screen, cell_size, 9, y + 4, correct[2])
         peg4.place(screen, cell_size, 11, y + 4, correct[3])
 
+        won = guess_button.check_win(correct)
+        print(won)
+
+
     #Game clock
     pygame.display.update()
-    clock.tick(30)
+    clock.tick(60)
+
+    if won == True:
+        board.win(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50))

@@ -43,3 +43,13 @@ class Text_Button:
             if (self.correct[i][0] == False) and (self.correct[i][1] == False):
                 self.correct[i][2] = True
         return(self.correct)
+    
+    def check_win(self, correct, total=0):
+        for i in range(len(correct)):
+            if correct[i][0]:
+                total += 1
+        
+        if total == 4:
+            return(True)
+        else:
+            return(False)
