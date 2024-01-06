@@ -42,7 +42,7 @@ button3.initial_draw(screen, cell_size, x + 27, y + 2)
 button4.initial_draw(screen, cell_size, x + 35, y + 2)
 
 guess_button = Text_Button(pygame, "Guess")
-guess_button.draw(screen, cell_size, 30, 30, font)
+guess_button.draw(screen, cell_size, 0, 0, font)
 
 while True:
     #Checks if the x to close button is clicked
@@ -57,17 +57,17 @@ while True:
     buttons[2] = button3.check_clicked(screen, cell_size, x + 27, y + 2)
     buttons[3] = button4.check_clicked(screen, cell_size, x + 35, y + 2)
 
-    guessed = guess_button.check_click(screen, cell_size, 30, 30)
+    guessed = guess_button.check_click(screen, cell_size, 0, 0)
     if guessed == True:
         correct = guess_button.check_correct(answer, buttons)
         peg1 = Key_Peg(pygame)
         peg2 = Key_Peg(pygame)
         peg3 = Key_Peg(pygame)
         peg4 = Key_Peg(pygame)
-        peg1.place(screen, cell_size, 2, y + 2, correct[0])
-        peg2.place(screen, cell_size, 4, y + 2, correct[1])
-        peg3.place(screen, cell_size, 2, y + 4, correct[2])
-        peg4.place(screen, cell_size, 4, y + 4, correct[3])
+        peg1.place(screen, cell_size, 9, y + 2, correct[0])
+        peg2.place(screen, cell_size, 11, y + 2, correct[1])
+        peg3.place(screen, cell_size, 9, y + 4, correct[2])
+        peg4.place(screen, cell_size, 11, y + 4, correct[3])
 
     #Game clock
     pygame.display.update()

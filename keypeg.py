@@ -7,13 +7,10 @@ class Key_Peg:
         self.pygame = pygame
     
     def place(self, screen, cell_size, x, y, correct):
-        #Creates a rectangle for the peg
-        peg_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size, cell_size)
-
         #It checks if it is correct and chooses the correct colour accordingly
         if correct[0]:
-            self.pygame.draw.rect(screen, self.green, peg_rect)
+            self.pygame.draw.circle(screen, self.green, (x * cell_size, y * cell_size), 0.5*cell_size)
         elif correct[1]:
-            self.pygame.draw.rect(screen, self.amber, peg_rect)
+            self.pygame.draw.circle(screen, self.amber, (x * cell_size, y * cell_size), 0.5*cell_size)
         else:
-            self.pygame.draw.rect(screen, self.red, peg_rect)
+            self.pygame.draw.circle(screen, self.red, (x * cell_size, y * cell_size), 0.5*cell_size)
