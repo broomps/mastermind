@@ -16,8 +16,14 @@ class Board:
         line_rect = self.pygame.Rect((position.x + 7) * cell_size, position.y * cell_size, cell_size, cell_size * 48)
         self.pygame.draw.rect(screen, self.DARKEST_BROWN, line_rect)
     
-    def win(self, screen, cell_size, font):
+    def win(self, screen, cell_size, font, guesses):
         screen.fill((0, 179, 138))
 
-        text_img = font.render("YOU WIN", True, (255, 255, 255))
+        text_img = font.render(f"YOU WIN IN {guesses} GUESSE(S)", True, (255, 255, 255))
+        screen.blit(text_img, (100, 200))
+    
+    def lose(self, screen, cell_size, font):
+        screen.fill((234, 50, 74))
+
+        text_img = font.render("YOU LOSE", True, (255, 255, 255))
         screen.blit(text_img, (200, 200))
