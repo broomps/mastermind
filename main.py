@@ -91,7 +91,6 @@ while True:
                 print(row)
                 end = True
 
-
     #Game clock
     pygame.display.update()
     clock.tick(60)

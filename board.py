@@ -19,7 +19,10 @@ class Board:
     def win(self, screen, cell_size, font, guesses):
         screen.fill((0, 179, 138))
 
-        text_img = font.render(f"YOU WIN IN {guesses} GUESSE(S)", True, (255, 255, 255))
+        if guesses == 1:
+            text_img = font.render(f"YOU WIN IN 1 GUESS", True, (255, 255, 255))
+        else:
+            text_img = font.render(f"YOU WIN IN {guesses} GUESSES", True, (255, 255, 255))
         screen.blit(text_img, (100, 200))
     
     def lose(self, screen, cell_size, font):

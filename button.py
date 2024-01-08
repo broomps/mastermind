@@ -9,7 +9,7 @@ class Button:
     #It draws all of the buttons with green as their starting colour
     def initial_draw(self, screen, cell_size, x, y):
         button_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size * 4, cell_size * 4)
-        self.pygame.draw.rect(screen, self.colours[self.colour], button_rect)
+        self.pygame.draw.rect(screen, self.colours[self.colour%len(self.colours)], button_rect)
 
     def check_clicked(self, screen, cell_size, x, y):
         #get mouse position
