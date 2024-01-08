@@ -32,7 +32,8 @@ class Text_Button:
         if self.pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
     
-    def check_correct(self, correct_answer, buttons, correct=[[False, False, False], [False, False, False], [False, False, False], [False, False, False]]):
+    def check_correct(self, correct_answer, buttons):
+        correct=[[False, False, False], [False, False, False], [False, False, False], [False, False, False]]
         #Iterates through each button
         for i in range(4):
             #If the guess is exactly correct the right value is set to true accordingly
