@@ -34,21 +34,29 @@ class Text_Button:
             self.clicked = False
     
     def check_correct(self, correct_answer, buttons):
+        #Iterates through each button
         for i in range(4):
+            #If the guess is exactly correct the right value is set to true accordingly
             if buttons[i] == correct_answer[i]:
                 self.correct[i][0] = True
+            #Iterates through the answer list
             for j in range(4):
+                #Right colour wrong place the right value is set to true
                 if (buttons[i] == correct_answer[j]) and (i != j):
                     self.correct[i][1] = True
+            #If it is not correct at all then it is set accordingly
             if (self.correct[i][0] == False) and (self.correct[i][1] == False):
                 self.correct[i][2] = True
+        #It returns the ammended list of correct values
         return(self.correct)
     
     def check_win(self, correct, total=0):
+        #Iterates through the correct list and checks how many are correct
         for i in range(len(correct)):
             if correct[i][0]:
                 total += 1
         
+        #If 4 are correct they win and if not the game continues
         if total == 4:
             return(True)
         else:
