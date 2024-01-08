@@ -6,7 +6,6 @@ class Text_Button:
         self.dark_brown = dark_brown
         self.text = text
         self.clicked = False
-        self.correct = [[False, False, False], [False, False, False], [False, False, False], [False, False, False]]
     
     def draw(self, screen, cell_size, x, y, font):
         #Draws the background that the text sits on
@@ -33,22 +32,22 @@ class Text_Button:
         if self.pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
     
-    def check_correct(self, correct_answer, buttons):
+    def check_correct(self, correct_answer, buttons, correct=[[False, False, False], [False, False, False], [False, False, False], [False, False, False]]):
         #Iterates through each button
         for i in range(4):
             #If the guess is exactly correct the right value is set to true accordingly
             if buttons[i] == correct_answer[i]:
-                self.correct[i][0] = True
+                correct[i][0] = True
             #Iterates through the answer list
             for j in range(4):
                 #Right colour wrong place the right value is set to true
                 if (buttons[i] == correct_answer[j]) and (i != j):
-                    self.correct[i][1] = True
+                    correct[i][1] = True
             #If it is not correct at all then it is set accordingly
-            if (self.correct[i][0] == False) and (self.correct[i][1] == False):
-                self.correct[i][2] = True
+            if (correct[i][0] == False) and (correct[i][1] == False):
+                correct[i][2] = True
         #It returns the ammended list of correct values
-        return(self.correct)
+        return(correct)
     
     def check_win(self, correct, total=0):
         #Iterates through the correct list and checks how many are correct
