@@ -6,6 +6,7 @@ from textbutton import *
 from keypeg import *
 
 #Initializes all of the variables used in the program
+clicked = False
 won = False
 row = 0
 end = False
@@ -30,7 +31,28 @@ pygame.display.set_caption("Mastermind")
 clock = pygame.time.Clock()
 
 #The board instance of class Board is initialized
-board = Board(Vector2, pygame)
+board = Screen(Vector2, pygame)
+
+#Start button initialization
+start_button = Text_Button(pygame, "START")
+
+screen.fill((111, 67, 42))
+
+#Menu loop
+while clicked != True:
+    #Checks if the x to close button is clicked
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit("Thank you for playing!")
+    start_button.draw(screen, cell_size, 10, 10, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50), 15, 5)
+    
+    clicked = start_button.check_click(screen, cell_size, 10, 10, 20, 20)
+    print(clicked)
+    #Game clock
+    pygame.display.update()
+    clock.tick(60)
+    
 
 #Draws the initial board
 screen.fill(board.BROWN)
@@ -49,7 +71,7 @@ button4.initial_draw(screen, cell_size, x + 35, y + 2)
 
 #The guess button is initialized and drawn on the screen
 guess_button = Text_Button(pygame, "Guess")
-guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20))
+guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 6, 2)
 
 #Y values for the pegs is set up
 y_values = [(y + 2), (y + 7), (y + 12), (y + 17), (y + 22), (y + 27), (y + 32), (y + 37), (y + 42)]
@@ -69,7 +91,7 @@ while True:
     buttons[3] = button4.check_clicked(screen, cell_size, x + 35, y_values[row])
 
     #Checks if the guess button has been clicked
-    guessed = guess_button.check_click(screen, cell_size, 0, 0)
+    guessed = guess_button.check_click(screen, cell_size, 0, 0, 6, 2)
     if guessed == True:
         #Creates a list with all all the values for if they are correct
         correct = guess_button.check_correct(answer, buttons)

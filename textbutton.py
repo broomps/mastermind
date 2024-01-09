@@ -7,20 +7,20 @@ class Text_Button:
         self.text = text
         self.clicked = False
     
-    def draw(self, screen, cell_size, x, y, font):
+    def draw(self, screen, cell_size, x, y, font, x_size, y_size):
         #Draws the background that the text sits on
-        button_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size * 6, cell_size * 2)
+        button_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size * x_size, cell_size * y_size)
         self.pygame.draw.rect(screen, self.dark_brown, button_rect)
 
         #Renders the text with the font and overlays it onto the background
         text_img = font.render(self.text, True, self.darkest_brown)
         screen.blit(text_img, (x * cell_size, y * cell_size))
     
-    def check_click(self, screen, cell_size, x, y):
+    def check_click(self, screen, cell_size, x, y, x_size, y_size):
         #get mouse position
         pos = self.pygame.mouse.get_pos()
         #Creates the button rectangle
-        button_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size * 6, cell_size * 2)
+        button_rect = self.pygame.Rect(x * cell_size, y * cell_size, cell_size * x_size, cell_size * y_size)
 
         #check mouseover and clicked conditions
         if button_rect.collidepoint(pos):

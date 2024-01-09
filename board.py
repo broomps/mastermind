@@ -1,4 +1,4 @@
-class Board:
+class Screen:
     #Initializing all of the variables
     def __init__(self, Vector2, pygame, brown=(111, 67, 42),dark_brown=(90, 56, 40), darkest_brown=(62, 43, 35)):
         self.Vector2 = Vector2
@@ -36,3 +36,5 @@ class Board:
         #You lose is displayed on the screen
         text_img = font.render("YOU LOSE", True, (255, 255, 255))
         screen.blit(text_img, (125, 200))
+    
+
