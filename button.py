@@ -1,7 +1,7 @@
 class Button:
     #Initializing all of the variables aswell as pygame
-    def __init__(self, pygame, green =(152,229,165), red=(172,56,52), orange=(252,138,23), blue = (43,98,244), yellow=(249,224,118), brown=(154,123,79)):
-        self.colours = (green, red, orange, blue, yellow , brown)
+    def __init__(self, pygame):
+        self.colours = ((112, 214, 255), (255, 112, 166), (255, 151, 112), (255, 214, 112), (43, 237, 112), (0, 107, 166))
         self.pygame = pygame
         self.colour = 0
         self.clicked = False

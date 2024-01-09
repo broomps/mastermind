@@ -35,4 +35,4 @@ class Board:
 
         #You lose is displayed on the screen
         text_img = font.render("YOU LOSE", True, (255, 255, 255))
-        screen.blit(text_img, (200, 200))
+        screen.blit(text_img, (125, 200))
