@@ -15,10 +15,6 @@ y = 1
 cell_size = 10
 number_of_cells = 50
 buttons = [0, 0, 0, 0]
-answer = []
-#The answer is randomly generated
-for i in range(4):
-    answer.append(random.randint(0, 5))
 
 #Pygame initialization
 pygame.init()
@@ -36,54 +32,68 @@ board = Screen(Vector2, pygame)
 #Start button initialization
 start_button = Text_Button(pygame, "START")
 
-screen.fill((111, 67, 42))
-
-#Menu loop
-while clicked != True:
-    #Checks if the x to close button is clicked
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit("Thank you for playing!")
-    start_button.draw(screen, cell_size, 10, 10, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50), 15, 5)
-    
-    clicked = start_button.check_click(screen, cell_size, 10, 10, 20, 20)
-    print(clicked)
-    #Game clock
-    pygame.display.update()
-    clock.tick(60)
-    
-
-#Draws the initial board
-screen.fill(board.BROWN)
-board.draw(screen, cell_size, Vector2(x, y))
-
 #Initializes all of the buttons and draws them at their respective coordinates
 button1 = Button(pygame)
 button2 = Button(pygame)
 button3 = Button(pygame)
 button4 = Button(pygame)
 
-button1.initial_draw(screen, cell_size, x + 11, y + 2)
-button2.initial_draw(screen, cell_size, x + 19, y + 2)
-button3.initial_draw(screen, cell_size, x + 27, y + 2)
-button4.initial_draw(screen, cell_size, x + 35, y + 2)
-
-#The guess button is initialized and drawn on the screen
 guess_button = Text_Button(pygame, "Guess")
-guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 6, 2)
+
+#Makes quit button
+quit_button = Text_Button(pygame, "Quit")
+
+#Fill the background
+screen.fill(board.BROWN)
+
+def draw():
+
+    #Draws the initial board
+    board.draw(screen, cell_size, Vector2(x, y))
+
+    button1.initial_draw(screen, cell_size, x + 11, y + 2)
+    button2.initial_draw(screen, cell_size, x + 19, y + 2)
+    button3.initial_draw(screen, cell_size, x + 27, y + 2)
+    button4.initial_draw(screen, cell_size, x + 35, y + 2)
+
+    #The guess button is initialized and drawn on the screen
+    guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 6, 2)
+    quit_button.draw(screen, cell_size, 0, 4, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 4.5, 2)
 
 #Y values for the pegs is set up
 y_values = [(y + 2), (y + 7), (y + 12), (y + 17), (y + 22), (y + 27), (y + 32), (y + 37), (y + 42)]
 
 #Game loop
 while True:
+    #Menu loop
+    while clicked != True:
+        #Checks if the x to close button is clicked
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit("Thank you for playing!")
+        drawn = False
+        screen.fill(board.BROWN)
+        start_button.draw(screen, cell_size, 10, 10, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50), 15, 5)
+        
+        clicked = start_button.check_click(screen, cell_size, 10, 10, 20, 20)
+        #Game clock
+        pygame.display.update()
+        clock.tick(60)
+    if not(drawn):
+        answer = []
+        #The answer is randomly generated
+        for i in range(4):
+            answer.append(random.randint(0, 5))
+        draw()
+        drawn = True
+        row = 0
     #Checks if the x to close button is clicked
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit("Thank you for playing!")
-    
+
     #Checking for collisions
     buttons[0] = button1.check_clicked(screen, cell_size, x + 11, y_values[row])
     buttons[1] = button2.check_clicked(screen, cell_size, x + 19, y_values[row])
@@ -127,6 +137,7 @@ while True:
                 board.lose(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50))
                 end = True
 
+    clicked = not(quit_button.check_click(screen, cell_size, 0, 4, 4.5, 2))
     #Game clock
     pygame.display.update()
     clock.tick(60)
