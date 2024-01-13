@@ -32,17 +32,24 @@ board = Screen(Vector2, pygame)
 #Start button initialization
 start_button = Text_Button(pygame, "START")
 
-#Initializes all of the buttons and draws them at their respective coordinates
+#Intantiates all of the code pegs
 button1 = Button(pygame)
 button2 = Button(pygame)
 button3 = Button(pygame)
 button4 = Button(pygame)
 
+#All text buttons are instantiated
 guess_button = Text_Button(pygame, "Guess")
 
-#Makes quit button
 quit_button = Text_Button(pygame, "Quit")
 
+save_button = Text_Button(pygame, "Save")
+
+restore_button = Text_Button(pygame, "Restore")
+
+#Wipes the save file
+with open("save.txt", "w") as f:
+    pass
 #Fill the background
 screen.fill(board.BROWN)
 
@@ -51,15 +58,16 @@ def draw():
     #Draws the initial board
     board.draw(screen, cell_size, Vector2(x, y))
 
+    #All code pegs are drawn
     button1.initial_draw(screen, cell_size, x + 11, y + 2)
     button2.initial_draw(screen, cell_size, x + 19, y + 2)
     button3.initial_draw(screen, cell_size, x + 27, y + 2)
     button4.initial_draw(screen, cell_size, x + 35, y + 2)
 
-    #The guess button is initialized and drawn on the screen
+    #ALl text buttons are drawn
     guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 6, 2)
     quit_button.draw(screen, cell_size, 0, 4, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 4.5, 2)
-
+    save_button.draw(screen, cell_size, 0, 8, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 4.5, 2)
 #Y values for the pegs is set up
 y_values = [(y + 2), (y + 7), (y + 12), (y + 17), (y + 22), (y + 27), (y + 32), (y + 37), (y + 42)]
 
@@ -75,12 +83,47 @@ while True:
         drawn = False
         screen.fill(board.BROWN)
         start_button.draw(screen, cell_size, 10, 10, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50), 15, 5)
+        restore_button.draw(screen, cell_size, 10, 20, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50), 21, 6)
         
-        clicked = start_button.check_click(screen, cell_size, 10, 10, 20, 20)
+        clicked = start_button.check_click(screen, cell_size, 10, 10, 15, 5)
+        if restore_button.check_click(screen, cell_size, 10, 20, 21, 6):
+            row = 0
+            drawn = True
+            clicked = True
+            with open("save.txt", "r") as f:
+                savefile = f.readlines()
+                for i in range(int(len(savefile[0])/4)):
+                    if i == 0:
+                        button1.colour = int(savefile[0][0])
+                        button2.colour = int(savefile[0][1])
+                        button3.colour = int(savefile[0][2])
+                        button4.colour = int(savefile[0][3])
+                        draw()
+                    else:
+                        button1.colour = int(savefile[0][0 + (4*i)])
+                        button2.colour = int(savefile[0][1 + (4*i)])
+                        button3.colour = int(savefile[0][2 + (4*i)])
+                        button4.colour = int(savefile[0][3 + (4*i)])
+
+                        row += 1
+                        #Try to draw another row of buttons
+                        button1.initial_draw(screen, cell_size, x + 11, y_values[row])
+                        button2.initial_draw(screen, cell_size, x + 19, y_values[row])
+                        button3.initial_draw(screen, cell_size, x + 27, y_values[row])
+                        button4.initial_draw(screen, cell_size, x + 35, y_values[row])
+            #Wipes the save file
+            with open("save.txt", "w") as f:
+                pass
+
+
         #Game clock
         pygame.display.update()
         clock.tick(60)
     if not(drawn):
+        button1.colour = 0
+        button2.colour = 0
+        button3.colour = 0
+        button4.colour = 0
         answer = []
         #The answer is randomly generated
         for i in range(4):
@@ -100,6 +143,14 @@ while True:
     buttons[2] = button3.check_clicked(screen, cell_size, x + 27, y_values[row])
     buttons[3] = button4.check_clicked(screen, cell_size, x + 35, y_values[row])
 
+    clicked = not(save_button.check_click(screen, cell_size, 0, 8, 4.5, 2))
+    if clicked == False:
+        #Save
+        with open("save.txt", "a") as f:
+            button = ""
+            for i in buttons:
+                button += str(i)
+            f.write(button)
     #Checks if the guess button has been clicked
     guessed = guess_button.check_click(screen, cell_size, 0, 0, 6, 2)
     if guessed == True:
@@ -116,6 +167,12 @@ while True:
         peg3.place(screen, cell_size, 9, y_values[row] + 2, correct[2])
         peg4.place(screen, cell_size, 11, y_values[row] + 2, correct[3])
 
+        #Autosave
+        with open("save.txt", "a") as f:
+            button = ""
+            for i in buttons:
+                button += str(i)
+            f.write(button)
         #Checks if they have won
         won = guess_button.check_win(correct)
 
@@ -136,8 +193,9 @@ while True:
                 #If they have made the maximum number of guesses they lose
                 board.lose(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50))
                 end = True
+    if clicked != False:
+        clicked = not(quit_button.check_click(screen, cell_size, 0, 4, 4.5, 2))
 
-    clicked = not(quit_button.check_click(screen, cell_size, 0, 4, 4.5, 2))
     #Game clock
     pygame.display.update()
     clock.tick(60)
