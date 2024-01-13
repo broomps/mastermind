@@ -8,9 +8,9 @@ class Key_Peg:
     
     def place(self, screen, cell_size, x, y, correct):
         #It checks if it is correct and chooses the correct colour accordingly
-        if correct[0]:
+        if (correct[0] == True) or (correct[0] == "1"):
             self.pygame.draw.circle(screen, self.green, (x * cell_size, y * cell_size), 0.5*cell_size)
-        elif correct[1]:
+        elif (correct[1] == True) or (correct[1] == "1"):
             self.pygame.draw.circle(screen, self.amber, (x * cell_size, y * cell_size), 0.5*cell_size)
         else:
             self.pygame.draw.circle(screen, self.red, (x * cell_size, y * cell_size), 0.5*cell_size)

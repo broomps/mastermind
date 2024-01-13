@@ -68,6 +68,58 @@ def draw():
     guess_button.draw(screen, cell_size, 0, 0, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 6, 2)
     quit_button.draw(screen, cell_size, 0, 4, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 4.5, 2)
     save_button.draw(screen, cell_size, 0, 8, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 20), 4.5, 2)
+
+def guess(row):
+    #Creates a list with all all the values for if they are correct
+    correct = guess_button.check_correct(answer, buttons)
+    #Initializes all of the key pegs
+    peg1 = Key_Peg(pygame)
+    peg2 = Key_Peg(pygame)
+    peg3 = Key_Peg(pygame)
+    peg4 = Key_Peg(pygame)
+    #Places all of the key pegs with the correct colour
+    peg1.place(screen, cell_size, 9, y_values[row], correct[0])
+    peg2.place(screen, cell_size, 11, y_values[row], correct[1])
+    peg3.place(screen, cell_size, 9, y_values[row] + 2, correct[2])
+    peg4.place(screen, cell_size, 11, y_values[row] + 2, correct[3])
+
+    #Autosave
+    with open("save.txt", "a") as f:
+        button = ""
+        corrects = ""
+        for i in buttons:
+            button += str(i)
+        
+        for i in correct:
+            for j in i:
+                j = str(j)
+                if j == "False":
+                    corrects += "0"
+                elif j == "True":
+                    corrects += "1"
+        button += corrects
+        f.write(button)
+    #Checks if they have won
+    won = guess_button.check_win(correct)
+
+    #If they have won
+    if won == True:
+        #The winning screen is displayed
+        board.win(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 30), row + 1)
+    else:
+        #Row + 1 means go to the next row down
+        row += 1
+        try:
+            #Try to draw another row of buttons
+            button1.initial_draw(screen, cell_size, x + 11, y_values[row])
+            button2.initial_draw(screen, cell_size, x + 19, y_values[row])
+            button3.initial_draw(screen, cell_size, x + 27, y_values[row])
+            button4.initial_draw(screen, cell_size, x + 35, y_values[row])
+        except IndexError:
+            #If they have made the maximum number of guesses they lose
+            board.lose(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50))
+            end = True
+    return(row)
 #Y values for the pegs is set up
 y_values = [(y + 2), (y + 7), (y + 12), (y + 17), (y + 22), (y + 27), (y + 32), (y + 37), (y + 42)]
 
@@ -92,20 +144,38 @@ while True:
             clicked = True
             with open("save.txt", "r") as f:
                 savefile = f.readlines()
-                for i in range(int(len(savefile[0])/4)):
+                for i in range(int(len(savefile[0])/16)):
                     if i == 0:
                         button1.colour = int(savefile[0][0])
                         button2.colour = int(savefile[0][1])
                         button3.colour = int(savefile[0][2])
                         button4.colour = int(savefile[0][3])
                         draw()
+                        row = guess(row)
+
+                        # #Initializes all of the key pegs
+                        # peg1 = Key_Peg(pygame)
+                        # peg2 = Key_Peg(pygame)
+                        # peg3 = Key_Peg(pygame)
+                        # peg4 = Key_Peg(pygame)
+
+                        # correct_list = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
+                        # for i in range(4):
+                        #     for j in range(3):
+                        #         correct_list[i][j] = savefile[0][((i*3) + j) + 4]
+                        # print(correct_list)
+                        # #Places all of the key pegs with the correct colour
+                        # peg1.place(screen, cell_size, 9, y_values[row], correct_list[0])
+                        # peg2.place(screen, cell_size, 11, y_values[row], correct_list[1])
+                        # peg3.place(screen, cell_size, 9, y_values[row] + 2, correct_list[2])
+                        # peg4.place(screen, cell_size, 11, y_values[row] + 2, correct_list[3])
                     else:
                         button1.colour = int(savefile[0][0 + (4*i)])
                         button2.colour = int(savefile[0][1 + (4*i)])
                         button3.colour = int(savefile[0][2 + (4*i)])
                         button4.colour = int(savefile[0][3 + (4*i)])
 
-                        row += 1
+                        row = guess(row)
                         #Try to draw another row of buttons
                         button1.initial_draw(screen, cell_size, x + 11, y_values[row])
                         button2.initial_draw(screen, cell_size, x + 19, y_values[row])
@@ -154,45 +224,7 @@ while True:
     #Checks if the guess button has been clicked
     guessed = guess_button.check_click(screen, cell_size, 0, 0, 6, 2)
     if guessed == True:
-        #Creates a list with all all the values for if they are correct
-        correct = guess_button.check_correct(answer, buttons)
-        #Initializes all of the key pegs
-        peg1 = Key_Peg(pygame)
-        peg2 = Key_Peg(pygame)
-        peg3 = Key_Peg(pygame)
-        peg4 = Key_Peg(pygame)
-        #Places all of the key pegs with the correct colour
-        peg1.place(screen, cell_size, 9, y_values[row], correct[0])
-        peg2.place(screen, cell_size, 11, y_values[row], correct[1])
-        peg3.place(screen, cell_size, 9, y_values[row] + 2, correct[2])
-        peg4.place(screen, cell_size, 11, y_values[row] + 2, correct[3])
-
-        #Autosave
-        with open("save.txt", "a") as f:
-            button = ""
-            for i in buttons:
-                button += str(i)
-            f.write(button)
-        #Checks if they have won
-        won = guess_button.check_win(correct)
-
-        #If they have won
-        if won == True:
-            #The winning screen is displayed
-            board.win(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 30), row + 1)
-        else:
-            #Row + 1 means go to the next row down
-            row += 1
-            try:
-                #Try to draw another row of buttons
-                button1.initial_draw(screen, cell_size, x + 11, y_values[row])
-                button2.initial_draw(screen, cell_size, x + 19, y_values[row])
-                button3.initial_draw(screen, cell_size, x + 27, y_values[row])
-                button4.initial_draw(screen, cell_size, x + 35, y_values[row])
-            except IndexError:
-                #If they have made the maximum number of guesses they lose
-                board.lose(screen, cell_size, pygame.font.Font('retro-grade-2-font/RetroGradeItalic-2OZYv.otf', 50))
-                end = True
+        row = guess(row)
     if clicked != False:
         clicked = not(quit_button.check_click(screen, cell_size, 0, 4, 4.5, 2))
 
