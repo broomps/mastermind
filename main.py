@@ -151,39 +151,22 @@ while True:
                         button3.colour = int(savefile[0][2])
                         button4.colour = int(savefile[0][3])
                         draw()
+                        buttons = [button1.colour, button2.colour, button3.colour, button4.colour]
                         row = guess(row)
+                        row = 1
 
-                        # #Initializes all of the key pegs
-                        # peg1 = Key_Peg(pygame)
-                        # peg2 = Key_Peg(pygame)
-                        # peg3 = Key_Peg(pygame)
-                        # peg4 = Key_Peg(pygame)
-
-                        # correct_list = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
-                        # for i in range(4):
-                        #     for j in range(3):
-                        #         correct_list[i][j] = savefile[0][((i*3) + j) + 4]
-                        # print(correct_list)
-                        # #Places all of the key pegs with the correct colour
-                        # peg1.place(screen, cell_size, 9, y_values[row], correct_list[0])
-                        # peg2.place(screen, cell_size, 11, y_values[row], correct_list[1])
-                        # peg3.place(screen, cell_size, 9, y_values[row] + 2, correct_list[2])
-                        # peg4.place(screen, cell_size, 11, y_values[row] + 2, correct_list[3])
                     else:
-                        button1.colour = int(savefile[0][0 + (4*i)])
-                        button2.colour = int(savefile[0][1 + (4*i)])
-                        button3.colour = int(savefile[0][2 + (4*i)])
-                        button4.colour = int(savefile[0][3 + (4*i)])
-
-                        row = guess(row)
+                        button1.colour = int(savefile[0][0 + (16*i)])
+                        button2.colour = int(savefile[0][1 + (16*i)])
+                        button3.colour = int(savefile[0][2 + (16*i)])
+                        button4.colour = int(savefile[0][3 + (16*i)])
                         #Try to draw another row of buttons
                         button1.initial_draw(screen, cell_size, x + 11, y_values[row])
                         button2.initial_draw(screen, cell_size, x + 19, y_values[row])
                         button3.initial_draw(screen, cell_size, x + 27, y_values[row])
                         button4.initial_draw(screen, cell_size, x + 35, y_values[row])
-            #Wipes the save file
-            with open("save.txt", "w") as f:
-                pass
+                        buttons = [button1.colour, button2.colour, button3.colour, button4.colour]
+                        row = guess(row)
 
 
         #Game clock
